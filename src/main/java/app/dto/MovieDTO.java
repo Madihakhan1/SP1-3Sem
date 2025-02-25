@@ -6,28 +6,31 @@ import lombok.Data;
 
 import java.util.List;
 
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieDTO {
-
-
-
-
-    @JsonProperty("title")
+    private int id;
     private String title;
+
+    @JsonProperty("original_title")
+    private String originalTitle;
 
     @JsonProperty("release_date")
     private String releaseDate;
 
-    @JsonProperty("vote_average")
-    private float rating;
+    private double popularity;
 
-    private int id;
+    @JsonProperty("vote_average")
+    private double voteAverage;
+
 
     private String overview;
 
+    @JsonProperty("original_language")
+    private String originalLanguage;
+
+
+
     @JsonProperty("genre_ids")
     private List<Integer> genreIds;
-
 }
