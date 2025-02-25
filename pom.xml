@@ -5,31 +5,34 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>app</groupId>
-    <artifactId>SP1</artifactId>
+    <artifactId>movieDBAPI</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate-version>6.6.6.Final</hibernate-version>
-        <junit.version>5.11.4</junit.version>
         <lombok.version>1.18.36</lombok.version>
         <hibernate-version>6.6.6.Final</hibernate-version>
         <junit.version>5.11.4</junit.version>
         <postgres.version>42.7.5</postgres.version>
+        <testcontainers.version>1.20.4</testcontainers.version>
+        <logback-classic>1.5.16</logback-classic>
+        <org.slf4j>2.0.16</org.slf4j>
+        <hamcrest>3.0</hamcrest>
 
 
     </properties>
 
     <dependencies>
-
         <!--  DB    -->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -37,10 +40,11 @@
         </dependency>
 
         <!--  LOMBOK    -->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
+            <version>1.18.36</version>
             <scope>provided</scope>
         </dependency>
 
@@ -63,5 +67,41 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Integration test with test containers -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Jackson for JSON handling -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.0</version> <!-- or the latest version -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
+        <!--  Logging   -->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j}</version>
+        </dependency>
+
     </dependencies>
 </project>
