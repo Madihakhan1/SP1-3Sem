@@ -22,5 +22,6 @@ public class Genre {
 
     private String title;
     private LocalDate realeaseDate;
+    private String description;
 
 }
