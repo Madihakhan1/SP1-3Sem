@@ -19,7 +19,7 @@ public class Genre {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "genres") // Relation til Movie
+    @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies;
 }
 

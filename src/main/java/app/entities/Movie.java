@@ -30,7 +30,7 @@ public class Movie {
     @Column(length = 1000)
     private String overview;
 
-    @Column(nullable = false)
+
     private String language;
 
     @ManyToMany

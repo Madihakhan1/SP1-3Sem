@@ -26,4 +26,18 @@ public class MovieDAO {
         }
     }
 
+    public void saveMovies(List<Movie> movies) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            for (Movie movie : movies) {
+                if (em.find(Movie.class, movie.getId()) == null) {
+                    em.persist(movie);
+                }
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
 }
