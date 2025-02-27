@@ -2,16 +2,19 @@ package app;
 
 import app.config.HibernateConfig;
 import app.dao.MovieDAO;
+import app.dto.DirectorDTO;
 import app.dto.TmdbResponseDTO;
 import app.dto.MovieDTO;
+import app.dto.ActorDTO;
+import app.entities.Director;
 import app.entities.Movie;
+import app.entities.Actor;
 import app.services.MovieService;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,16 +28,17 @@ public class Main {
             List<Movie> moviesToSave = new ArrayList<>();
 
             for (MovieDTO movieDTO : response.getResults()) {
-                Movie movie = Movie.builder()
-                        .id(movieDTO.getId())
-                        .title(movieDTO.getTitle())
-                        .originalTitle(movieDTO.getOriginalTitle())
-                        .releaseDate(parseDate(movieDTO.getReleaseDate()))
-                        .voteAverage(movieDTO.getVoteAverage())
-                        .popularity(movieDTO.getPopularity())
-                        .overview(movieDTO.getOverview())
-                        .build();
 
+                // Hent director og tilføj til filmen
+                DirectorDTO directorDTO = MovieService.fetchDirectorFromMovie(movieDTO.getId());
+                movieDTO.setDirector(directorDTO);
+
+                // Hent skuespillere og tilføj til filmen
+                List<ActorDTO> actorDTOs = MovieService.fetchActorsFromMovie(movieDTO.getId());
+                movieDTO.setActors(actorDTOs);
+
+                // Konverter til entity
+                Movie movie = movieDTO.getAsEntity();
                 moviesToSave.add(movie);
             }
 
@@ -50,16 +54,4 @@ public class Main {
 
         emf.close();
     }
-
-    private static LocalDate parseDate(String dateStr) {
-        try {
-            return LocalDate.parse(dateStr);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-
-
-
 }

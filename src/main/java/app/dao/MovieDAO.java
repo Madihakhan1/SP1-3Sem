@@ -1,11 +1,14 @@
 package app.dao;
 
+import app.entities.Actor;
+import app.entities.Director;
 import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 
 public class MovieDAO {
@@ -32,6 +35,31 @@ public class MovieDAO {
             em.getTransaction().begin();
             for (Movie movie : movies) {
                 if (em.find(Movie.class, movie.getId()) == null) {
+
+                    // Håndter director
+                    Director foundDirector = em.find(Director.class, movie.getDirector().getId());
+                    if (foundDirector == null) {
+                        em.persist(movie.getDirector());
+                    } else {
+                        movie.setDirector(foundDirector);
+                    }
+
+                    // Håndter actors
+                    Set<Actor> managedActors = new HashSet<>();
+                    for (Actor actor : movie.getActors()) {
+                        Actor foundActor = em.find(Actor.class, actor.getId());
+                        if (foundActor == null) {
+                            em.persist(actor);
+                            managedActors.add(actor);
+                        } else {
+                            managedActors.add(foundActor);
+                        }
+                    }
+
+                    // Opdater filmen med de korrekte actors
+                    movie.setActors(managedActors);
+
+                    // Persistér filmen med de opdaterede relationer
                     em.persist(movie);
                 }
             }
@@ -40,4 +68,5 @@ public class MovieDAO {
             em.close();
         }
     }
+
 }
